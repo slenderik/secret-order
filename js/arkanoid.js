@@ -160,10 +160,6 @@ function ArkanoidGame(canvas, context) {
 	}
 
 	this.draw = function() {
-		// // draw canvas background
-		// context.fillStyle = 'rgb(0,10,0)';
-		// context.fillRect(0, 0, canvas.width, canvas.height);
-
 		this.drawBall();
 		// draw paddle
 		context.fillStyle = 'rgb(155,110,5)';
@@ -181,7 +177,7 @@ function ArkanoidGame(canvas, context) {
 		}
 
 		if (this.gameOver) {
-			this.displayLabel('Проигрыш', canvas.width / 2 - 20);
+			this.displayLabel('Проигрыш', canvas.width / 2 - 45);
 		}
 
 		// Show winning modal
@@ -245,8 +241,7 @@ function ArkanoidGame(canvas, context) {
 				this.ball.dir = BallDirs.NONE;
 			}
 		}
-
-		// "random" select first ball dir 
+ 
 		if (this.ball.dir == BallDirs.NONE) {
 			this.ball.x = this.paddle.x + this.paddle.width / 2;
 			this.ball.y = this.paddle.y - this.ball.radius * 2;
