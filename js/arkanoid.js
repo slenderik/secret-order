@@ -86,6 +86,7 @@ function ArkanoidGame(canvas, context) {
 	this.gameOver = false;
 	this.gameWin = false;
 	this.gamePaused = false;
+	this.gameStarted = true;
 	this.bricks = new Bricks(8, 2, BRICK_WIDTH, BRICK_HEIGHT);
 	
 
@@ -96,6 +97,7 @@ function ArkanoidGame(canvas, context) {
 		this.gameOver = false;
 		this.gameWin = false;
 		this.gamePaused = false;
+		this.gameStarted = false;
 		this.ball.dir = BallDirs.NONE;
 		this.initLevel(this.level);
 	}
@@ -103,7 +105,7 @@ function ArkanoidGame(canvas, context) {
 	this.initLevel = function(level) {
 		switch (level) {
 			case 0:
-				this.bricks = new Bricks(6, 4, BRICK_WIDTH, BRICK_HEIGHT);
+				this.bricks = new Bricks(6, 3, BRICK_WIDTH, BRICK_HEIGHT);
 				for (var i = 0; i < this.bricks.bricks.length; i++) {
 					for (var j = 0; j < this.bricks.bricks[i].length; j++) {
 						this.bricks.bricks[i][j].lifes = BricksTypes.DEFAULT;
@@ -163,12 +165,16 @@ function ArkanoidGame(canvas, context) {
 		// context.fillRect(0, 0, canvas.width, canvas.height);
 
 		this.drawBall();
-
 		// draw paddle
 		context.fillStyle = 'rgb(155,110,5)';
 		context.fillRect(this.paddle.x, this.paddle.y, this.paddle.width, this.paddle.height);
-
+		
 		this.drawBricks();
+
+		if (!this.gameStarted) {
+			this.displayLabel("Разбей все блоки", canvas.width / 2 - 85, canvas.height / 2);
+			this.displayLabel("и получи приз", canvas.width / 2 - 65, canvas.height / 2 + 20);
+		}
 
 		if (this.gamePaused && !this.gameWin && !this.gameOver) {
 			this.displayLabel('Пауза');
@@ -354,6 +360,10 @@ function ArkanoidGame(canvas, context) {
 		this.draw();
 	}
 
+	this.gameStart = function() {
+		this.gameStarted = true;
+	}
+
 	this.togglePause = function() {
 		this.gamePaused = !this.gamePaused;
 	}
@@ -389,6 +399,7 @@ function ArkanoidGame(canvas, context) {
 		if (this.ball.dir == BallDirs.NONE) {
 			this.ball.dir = BallDirs.RIGHT + BallDirs.UP;
 		}
+		this.gameStart();
 	}
 };
 
@@ -411,7 +422,6 @@ function checkCanvasIsSupported() {
 
 		arkanoidGame = new ArkanoidGame(canvas, context);
 		arkanoidGame.init();
-		arkanoidGame.displayLabel("Разьеби и забери");
 
 		setInterval(render, 1000 / 60);
 	} else {
