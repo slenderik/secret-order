@@ -105,7 +105,7 @@ function ArkanoidGame(canvas, context) {
 	this.initLevel = function(level) {
 		switch (level) {
 			case 0:
-				this.bricks = new Bricks(6, 3, BRICK_WIDTH, BRICK_HEIGHT);
+				this.bricks = new Bricks(6, 4, BRICK_WIDTH, BRICK_HEIGHT);
 				for (var i = 0; i < this.bricks.bricks.length; i++) {
 					for (var j = 0; j < this.bricks.bricks[i].length; j++) {
 						this.bricks.bricks[i][j].lifes = BricksTypes.DEFAULT;
@@ -152,8 +152,8 @@ function ArkanoidGame(canvas, context) {
 					var logo = new Image();
 					logo.src = "logo.svg";
 					logo.alt = "БЛЭСТКЭМП (киров)";
-					context.fillRect(this.bricks.bricks[i][j].x, this.bricks.bricks[i][j].y, this.bricks.bricks[i][j].width - 2, this.bricks.bricks[i][j].height - 2);
-					context.drawImage(logo, this.bricks.bricks[i][j].x, this.bricks.bricks[i][j].y, this.bricks.bricks[i][j].width - 2, this.bricks.bricks[i][j].height - 2);
+					context.fillRect(this.bricks.bricks[i][j].x, this.bricks.bricks[i][j].y, this.bricks.bricks[i][j].width, this.bricks.bricks[i][j].height);
+					context.drawImage(logo, this.bricks.bricks[i][j].x, this.bricks.bricks[i][j].y, this.bricks.bricks[i][j].width, this.bricks.bricks[i][j].height);
 				}
 			}
 		}
@@ -161,6 +161,7 @@ function ArkanoidGame(canvas, context) {
 
 	this.draw = function() {
 		this.drawBall();
+		
 		// draw paddle
 		context.fillStyle = 'rgb(155,110,5)';
 		context.fillRect(this.paddle.x, this.paddle.y, this.paddle.width, this.paddle.height);
@@ -196,6 +197,7 @@ function ArkanoidGame(canvas, context) {
 	}
 
 	this.update = function() {
+		console.log("speed: " + this.ball.speed)
 		if (this.gamePaused || this.gameWin || this.gameOver) return;
 
 		// update ball pos
