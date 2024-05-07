@@ -152,8 +152,8 @@ function ArkanoidGame(canvas, context) {
 					var logo = new Image();
 					logo.src = "logo.svg";
 					logo.alt = "БЛЭСТКЭМП (киров)";
-					context.fillRect(this.bricks.bricks[i][j].x, this.bricks.bricks[i][j].y, this.bricks.bricks[i][j].width, this.bricks.bricks[i][j].height);
-					context.drawImage(logo, this.bricks.bricks[i][j].x, this.bricks.bricks[i][j].y, this.bricks.bricks[i][j].width, this.bricks.bricks[i][j].height);
+					context.fillRect(this.bricks.bricks[i][j].x, this.bricks.bricks[i][j].y, this.bricks.bricks[i][j].width + 1, this.bricks.bricks[i][j].height + 1);
+					context.drawImage(logo, this.bricks.bricks[i][j].x, this.bricks.bricks[i][j].y, this.bricks.bricks[i][j].width + 1, this.bricks.bricks[i][j].height + 1);
 				}
 			}
 		}
