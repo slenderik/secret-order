@@ -62,7 +62,7 @@ function ArkanoidGame(canvas, context) {
 	// Вот плоды моей адаптации.
 	var windowInnerWidth = document.documentElement.clientWidth;
 	var windowInnerHeight = document.documentElement.clientHeight;
-	console.log(windowInnerWidth);
+	
 	canvas.width = windowInnerWidth >= 640 ? 640 : (windowInnerWidth * 1) - 10; 
 	canvas.height = windowInnerHeight * 0.8;
 
@@ -197,7 +197,7 @@ function ArkanoidGame(canvas, context) {
 	}
 
 	this.update = function() {
-		console.log("speed: " + this.ball.speed)
+		this.displayLabel(("speed: " + this.ball.speed), canvas.width / 2 - 65, canvas.height / 2 + 20);
 		if (this.gamePaused || this.gameWin || this.gameOver) return;
 
 		// update ball pos
