@@ -1,26 +1,25 @@
-     <!--
-======================================================================
-JavaScript Arkanoid Game
-Author: delimitry
-======================================================================
--->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>БЛЭСТ КЭМП</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <!-- Google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-
+    
     <style>
+        button {
+            border: none;
+        }
+
         body {
             margin: 0px;
             overflow: hidden;
-        
+            /* position: fixed; */
+            
             display: flex;
             justify-content: center;
             background-color: black;
@@ -34,18 +33,10 @@ Author: delimitry
             cursor: none;
             border: solid 1px gray;
             
-            background-image: url("background.jpg");
+            background-image: url("media/background.png");
             background-size: cover;
             background-position: center top;
-            /* object-fit: cover;
-            object-position: 50% 50%;
-            background-repeat: no-repeat;
-            background-position: center; */
-        }
 
-        .arcanoid-canvas__image {
-            width: 600px;
-            z-index: 10;
         }
 
         .arcanoid-popup:modal {
@@ -55,11 +46,13 @@ Author: delimitry
             justify-content: center;
 
             width: 65%;
+            color: white;
             max-width: 400px;
+            text-align: center;
             
-            border: none;
+            border: 5px solid white;
             padding: 0px 20px 20px 20px;
-            background-color: white;
+            background-color: black;
         }
         
         .arcanoid-popup__button {
@@ -67,28 +60,17 @@ Author: delimitry
             align-items: center;
             justify-content: center;
             
-            color: white;
+            color: black;
             text-decoration: none;
             
             width: 100%;
             padding: 5px 0px;
-            background-color: black;
+            background-color: white;
         }
-        
-        .arcanoid-popup__close-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            
-            height: 30px;
-            width: 30px;
 
-            top: 10px;
-            right: 5px;
-            position: absolute;
-
-            border-radius: 50px;
-            border: none;
+        .arcanoid-popup__header {
+            font-size: 1.5em;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -97,18 +79,33 @@ Author: delimitry
     <script type="text/javascript" src="js/arkanoid.js"></script>
     <canvas class="arcanoid-canvas" id="gameCanvas"></canvas>
 
-    <dialog id="arcanoidModal" class="arcanoid-popup" aria-label="Вы победили">
-        <!-- <form class="arcanoid-popup__close-button" method="dialog">
-            <button class="arcanoid-popup__close-button">X</button>
-        </form> -->
 
-        <h2 id="modalHeader">А ТЫ МОЛОДЕЦ</h2>
-        <p id="modalText">ЗА НАСТОЙЧИВОСТЬ ДАРИМ ТЕБЕ СКИДКУ НА КЭМП ЖМИ НА КНОПКУ И АВТОРИЗУЙСЯ В БОТЕ</p>
-        <a id="modalButton" class="arcanoid-popup__button" href="https://t.me/truecroo">ПОЛУЧИТЬ СКИДКУ</a>
+    <dialog id="startModal" class="arcanoid-popup" aria-label="Игра арканоид: разбейте все">
+        <p class="arcanoid-popup__header">РАЗБЕЙ ВСЕ БЛОКИ ЧТОБЫ ПОЛУЧИТЬ ПРИЗ</p>
+
+        <form class="arcanoid-popup__button" method="dialog">
+            <button class="arcanoid-popup__button">ХОРОШО!</button>
+        </form>
     </dialog>
 
-    <!-- <button type="button" onclick="window.arcanoidModal.showModal()">
-        МОДАЛКА
-    </button> -->
+
+    <dialog id="arcanoidModal" class="arcanoid-popup" aria-label="Вы победили">
+        <p class="arcanoid-popup__header">ПОЗДРАВЛЯЕМ!</p>
+        <p>
+            Ты выиграл возможность купить БЛЭСТ КЭМП 2024 со скидкой. <br>
+            Нажимай на кнопку и регистрируйся в ботe<br>
+            ЗА НАСТОЙЧИВОСТЬ ДАРИМ ТЕБЕ СКИДКУ НА КЭМП ЖМИ НА КНОПКУ И АВТОРИЗУЙСЯ В БОТЕ
+        </p>
+        <a id="modalButton" class="arcanoid-popup__button" href="https://t.me/blsdcamp_bot?start=link_GYOvfyQjYN">
+            ПЕРЕЙТИ В БОТА
+        </a>
+    </dialog>
+
+    <button type="button" onclick="window.arcanoidModal.showModal()">
+        ПОБЕДА
+    </button>
+    <button type="button" onclick="window.startModal.showModal()">
+        НАЧАЛО
+    </button>
 </body>
 </html>
