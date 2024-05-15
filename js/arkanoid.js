@@ -1,9 +1,3 @@
-//-----------------------------------------------------------------------------------------------------------
-// Arkanoid game
-//
-// Author: delimitry
-//-----------------------------------------------------------------------------------------------------------
-
 function Paddle(x, y, width, height) {
 	this.x = x;
 	this.y = y;
@@ -30,10 +24,7 @@ function Ball(x, y, radius, dir, speed) {
 var BricksTypes = {
 	DEFAULT : 1,
 	ICE : 1,
-	WOOD : 2,
-	STONE : 3,
-	IRON : 4,
-	STEEL : 5
+	WOOD : 2
 };
 
 function Brick(x, y, width, height, type) {
@@ -57,6 +48,7 @@ function Bricks(hor_num, vert_num, brick_width, brick_height) {
 //-----------------------------------------------------------------------------------------------------------
 // Arkanoid Game class
 //-----------------------------------------------------------------------------------------------------------
+
 function ArkanoidGame(canvas, context) {
 	
 	// Вот плоды моей адаптации.
@@ -70,13 +62,26 @@ function ArkanoidGame(canvas, context) {
 	var PADDLE_HEIGHT = 10;
 	var PADDLE_WIDTH = 60;
 
-	var BALL_RADIUS = 3;
+	var BALL_RADIUS = 5;
 	var BALL_MAX_SPEED = 6;
 	var BALL_DEFAULT_SPEED = 3;
 
 	var BRICK_SCORE = 100;
 	var BRICK_WIDTH = canvas.width / 6;
 	var BRICK_HEIGHT = BRICK_WIDTH * 0.4375 ;
+	
+	var PADDLE_IMAGE = new Image();
+	PADDLE_IMAGE.src = "media/paddle.png";
+
+	var BLOCK_BLUE_IMAGE = new Image();
+	BLOCK_BLUE_IMAGE.src = "media/block-blue.png";
+	BLOCK_BLUE_IMAGE.alt = "БЛЭСТКЭМП (киров)";
+	
+	var BLOCK_DARK_BLUE_IMAGE = new Image();
+	BLOCK_DARK_BLUE_IMAGE.src = "media/block-dark-blue.png";
+	BLOCK_DARK_BLUE_IMAGE.alt = "БЛЭСТКЭМП (киров)";
+
+	var BALL_COLOR = "#b5f046";
 
 	this.level = 0;
 	this.lifes = 3;
@@ -88,7 +93,7 @@ function ArkanoidGame(canvas, context) {
 	this.gamePaused = false;
 	this.gameStarted = true;
 	this.bricks = new Bricks(8, 2, BRICK_WIDTH, BRICK_HEIGHT);
-	
+
 
 	this.init = function() {
 		this.level = 0;
@@ -108,7 +113,8 @@ function ArkanoidGame(canvas, context) {
 				this.bricks = new Bricks(6, 4, BRICK_WIDTH, BRICK_HEIGHT);
 				for (var i = 0; i < this.bricks.bricks.length; i++) {
 					for (var j = 0; j < this.bricks.bricks[i].length; j++) {
-						this.bricks.bricks[i][j].lifes = BricksTypes.DEFAULT;
+						var a = i < 1 ? 1 : 0;
+						this.bricks.bricks[i][j].lifes = BricksTypes.DEFAULT + a;
 					}
 				}
 				break;
@@ -119,41 +125,39 @@ function ArkanoidGame(canvas, context) {
 	}
 
 	this.displayLabel = function(text, x = (canvas.width / 2 - 30), y = (canvas.height / 2)) {
-		context.fillStyle = 'rgb(255,255,255)'; // label color 
-		context.font = 'bold 20px Arial'; // label fonts
+		context.fillStyle = 'rgb(255,255,255)';
+		context.font = 'bold 20px Arial';
 		context.fillText(text, x, y);
 	}
 
-	this.showModal = function(header, text, buttonText) {
+	this.showStartModal = function(){
+		document.getElementById("startModal").showModal();
+	}
+
+	this.showModal = function() {
 		document.getElementById("arcanoidModal").showModal();
 	}
 
 	this.drawBall = function() {
 		context.beginPath();
 		context.arc(this.ball.x, this.ball.y, this.ball.radius, 0, 2 * Math.PI, false);
-		context.fillStyle = 'yellow';
+		context.fillStyle = BALL_COLOR;
 		context.fill();
 	}
 
 	this.drawBricks = function() {
 		for (var i = 0; i < this.bricks.bricks.length; i++) {
 			for (var j = 0; j < this.bricks.bricks[i].length; j++) {
-				if (this.bricks.bricks[i][j].lifes > 0) {
-					switch (this.bricks.bricks[i][j].lifes) {
-						case BricksTypes.ICE: context.fillStyle = 'rgba(220,220,255)'; break;
-						case BricksTypes.WOOD: context.fillStyle = 'rgb(245,155,25)'; break;
-						case BricksTypes.STONE: context.fillStyle = 'rgb(55,55,55)'; break;
-						case BricksTypes.IRON: context.fillStyle = 'rgb(25,25,85)'; break;
-						case BricksTypes.STEEL: context.fillStyle = 'rgb(15,225,255)'; break;
-						case BricksTypes.DEFAULT: context.fillStyle = 'yellow'; break;
-						default: context.fillStyle = 'rgba(220,220,255)';
-					}
 
-					var logo = new Image();
-					logo.src = "logo.svg";
-					logo.alt = "БЛЭСТКЭМП (киров)";
-					context.fillRect(this.bricks.bricks[i][j].x, this.bricks.bricks[i][j].y, this.bricks.bricks[i][j].width + 1, this.bricks.bricks[i][j].height + 1);
-					context.drawImage(logo, this.bricks.bricks[i][j].x, this.bricks.bricks[i][j].y, this.bricks.bricks[i][j].width + 1, this.bricks.bricks[i][j].height + 1);
+				var current_block_image;
+
+				if (this.bricks.bricks[i][j].lifes > 0) {
+					if (this.bricks.bricks[i][j].lifes == BricksTypes.WOOD) {
+						current_block_image = BLOCK_DARK_BLUE_IMAGE;
+					} else {
+						current_block_image = BLOCK_BLUE_IMAGE;
+					}
+					context.drawImage(current_block_image, this.bricks.bricks[i][j].x, this.bricks.bricks[i][j].y, this.bricks.bricks[i][j].width, this.bricks.bricks[i][j].height);
 				}
 			}
 		}
@@ -161,16 +165,13 @@ function ArkanoidGame(canvas, context) {
 
 	this.draw = function() {
 		this.drawBall();
-		
-		// draw paddle
-		context.fillStyle = 'rgb(155,110,5)';
-		context.fillRect(this.paddle.x, this.paddle.y, this.paddle.width, this.paddle.height);
-		
 		this.drawBricks();
+		// draw paddle
+		context.drawImage(PADDLE_IMAGE, this.paddle.x, this.paddle.y, this.paddle.width, this.paddle.height);
+		
 
 		if (!this.gameStarted) {
-			this.displayLabel("Разбей все блоки", canvas.width / 2 - 85, canvas.height / 2);
-			this.displayLabel("и получи приз", canvas.width / 2 - 65, canvas.height / 2 + 20);
+			this.showStartModal()
 		}
 
 		if (this.gamePaused && !this.gameWin && !this.gameOver) {
@@ -197,7 +198,6 @@ function ArkanoidGame(canvas, context) {
 	}
 
 	this.update = function() {
-		this.displayLabel(("speed: " + this.ball.speed), canvas.width / 2 - 65, canvas.height / 2 + 20);
 		if (this.gamePaused || this.gameWin || this.gameOver) return;
 
 		// update ball pos
@@ -243,7 +243,8 @@ function ArkanoidGame(canvas, context) {
 				this.ball.dir = BallDirs.NONE;
 			}
 		}
- 
+
+		// "random" select first ball dir 
 		if (this.ball.dir == BallDirs.NONE) {
 			this.ball.x = this.paddle.x + this.paddle.width / 2;
 			this.ball.y = this.paddle.y - this.ball.radius * 2;
@@ -377,7 +378,6 @@ function ArkanoidGame(canvas, context) {
 
 	this.setPaddlePos = function(x) {
 		x -= canvas.getBoundingClientRect().x;
-		console.log(canvas.getBoundingClientRect().x);
 		x -= PADDLE_WIDTH/2;
 		if (this.gamePaused || this.gameWin || this.gameOver)
 			return;
