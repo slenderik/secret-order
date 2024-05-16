@@ -82,6 +82,7 @@ function ArkanoidGame(canvas, context) {
 	BLOCK_DARK_BLUE_IMAGE.alt = "БЛЭСТКЭМП (киров)";
 
 	var BALL_COLOR = "#b5f046";
+	var startModal = document.getElementById("startModal");
 
 	this.level = 0;
 	this.lifes = 3;
@@ -131,7 +132,7 @@ function ArkanoidGame(canvas, context) {
 	}
 
 	this.showStartModal = function(){
-		document.getElementById("startModal").showModal();
+		startModal.showModal();
 	}
 
 	this.showModal = function() {
@@ -392,6 +393,7 @@ function ArkanoidGame(canvas, context) {
 	}
 
 	this.startGame = function() {
+		
 		if (this.gamePaused) return;
 		if (this.ball.dir == BallDirs.NONE) {
 			this.ball.dir = BallDirs.RIGHT + BallDirs.UP;
