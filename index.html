@@ -4,15 +4,21 @@
     <meta charset="UTF-8">
     <title>БЛЭСТ КЭМП</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    
     <style>
-        button {
-            border: none;
+        @font-face {
+            font-family: "TTFirs";
+            src: local("TTFirs Medium"), 
+                local("TTFirs-Medium"),
+                url("fonts/TTFirs-Medium.ttf") format("ttf");
+            font-weight: medium;
+        }
+
+        @font-face {
+            font-family: "TTFirs Neue";
+            src: local("TTFirs Neue Bold"), 
+                local("TTFirsNeue-Bold"),
+                url("fonts/TTFirsNeue-Bold.ttf") format("ttf");
+            font-weight: bold;
         }
 
         body {
@@ -23,20 +29,28 @@
             display: flex;
             justify-content: center;
             background-color: black;
+
+            font-weight: bold;
+            font-family: "TTFirs Neue", sans-serif;
+        }
+
+        button {
+            font-family: "TTFirs Neue", sans-serif;
+            font-weight: bold;
+            font-size: 16px;
             
-            font-weight: 400;
-            font-style: normal;
-            font-family: "Roboto", sans-serif;
+            border: none;
+        }
+        :focus-visible {
+            outline: none;
         }
 
         .arcanoid-canvas {
             cursor: none;
             border: solid 1px gray;
-            
-            background-image: url("media/background.png");
             background-size: cover;
             background-position: center top;
-
+            background-image: url("media/background.png");
         }
 
         .arcanoid-popup:modal {
@@ -93,19 +107,11 @@
         <p class="arcanoid-popup__header">ПОЗДРАВЛЯЕМ!</p>
         <p>
             Ты выиграл возможность купить БЛЭСТ КЭМП 2024 со скидкой. <br>
-            Нажимай на кнопку и регистрируйся в ботe<br>
-            ЗА НАСТОЙЧИВОСТЬ ДАРИМ ТЕБЕ СКИДКУ НА КЭМП ЖМИ НА КНОПКУ И АВТОРИЗУЙСЯ В БОТЕ
+            Нажимай на кнопку и регистрируйся в ботe
         </p>
         <a id="modalButton" class="arcanoid-popup__button" href="https://t.me/blsdcamp_bot?start=link_GYOvfyQjYN">
             ПЕРЕЙТИ В БОТА
         </a>
     </dialog>
-
-    <button type="button" onclick="window.arcanoidModal.showModal()">
-        ПОБЕДА
-    </button>
-    <button type="button" onclick="window.startModal.showModal()">
-        НАЧАЛО
-    </button>
 </body>
 </html>
